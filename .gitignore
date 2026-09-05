@@ -1,0 +1,26 @@
+# Repository Size Limit Guard (Keep < 10MB)
+
+# Python/Backend
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+
+# Flutter/Frontend
+frontend/project_orbitmentor/build/
+frontend/project_orbitmentor/.dart_tool/
+frontend/project_orbitmentor/.flutter-plugins
+frontend/project_orbitmentor/.packages
+frontend/project_orbitmentor/.pub-cache/
+frontend/project_orbitmentor/.pub/
+
+# Platform-specific folders (Excluding iOS/macOS/Windows/Linux)
+frontend/project_orbitmentor/ios/
+frontend/project_orbitmentor/macos/
+frontend/project_orbitmentor/windows/
+frontend/project_orbitmentor/linux/
+
+# IDE
+.idea/
+*.iml
