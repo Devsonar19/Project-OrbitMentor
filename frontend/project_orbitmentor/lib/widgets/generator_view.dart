@@ -3,7 +3,9 @@ import '../models/idea_models.dart';
 import '../services/api_service.dart';
 
 class GeneratorView extends StatefulWidget {
-  const GeneratorView({super.key});
+  final void Function(ProjectIdea idea, List<String> skills, String domain)? onExploreIdea;
+
+  const GeneratorView({super.key, this.onExploreIdea});
 
   @override
   State<GeneratorView> createState() => _GeneratorViewState();
@@ -591,7 +593,9 @@ class _GeneratorViewState extends State<GeneratorView> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton.icon(
-                          onPressed: () {},
+                          onPressed: widget.onExploreIdea != null
+                              ? () => widget.onExploreIdea!(idea, List.from(_selectedSkills), _selectedDomain)
+                              : null,
                           icon: const Text('Explore in Mentor ->', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
                           label: const SizedBox.shrink(),
                         ),
