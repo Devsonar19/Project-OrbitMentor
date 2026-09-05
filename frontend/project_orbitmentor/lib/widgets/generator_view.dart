@@ -101,11 +101,11 @@ class _GeneratorViewState extends State<GeneratorView> {
     const surfaceSubtle = Color(0xFF1A1D20);
     const borderDark = Color(0xFF2B3035);
 
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 840),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 32),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 840),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -161,8 +161,8 @@ class _GeneratorViewState extends State<GeneratorView> {
                       runSpacing: 4,
                       alignment: WrapAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
                             Text('01.', style: TextStyle(fontFamily: 'JetBrains Mono', color: primaryColor, fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
@@ -315,8 +315,8 @@ class _GeneratorViewState extends State<GeneratorView> {
                       runSpacing: 4,
                       alignment: WrapAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
                             Text('02.', style: TextStyle(fontFamily: 'JetBrains Mono', color: primaryColor, fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
@@ -371,8 +371,8 @@ class _GeneratorViewState extends State<GeneratorView> {
                       runSpacing: 4,
                       alignment: WrapAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
                             Text('03.', style: TextStyle(fontFamily: 'JetBrains Mono', color: primaryColor, fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
@@ -434,8 +434,9 @@ class _GeneratorViewState extends State<GeneratorView> {
                                 height: 24,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF002585)),
                               )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                            : Wrap(
+                                alignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   const Icon(Icons.bolt, size: 20),
                                   const SizedBox(width: 8),
@@ -459,8 +460,8 @@ class _GeneratorViewState extends State<GeneratorView> {
                       runSpacing: 4,
                       alignment: WrapAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
                             Icon(Icons.tune, size: 14, color: Color(0xFF94A3B8)),
                             SizedBox(width: 6),
@@ -470,8 +471,8 @@ class _GeneratorViewState extends State<GeneratorView> {
                             Text('• Context: 4.2k tokens', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
                           ],
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
                             Icon(Icons.schema, size: 14, color: Color(0xFF94A3B8)),
                             SizedBox(width: 6),
