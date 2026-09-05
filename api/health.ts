@@ -1,15 +1,7 @@
-import type { IncomingMessage, ServerResponse } from 'http';
+import { ServerlessRequest, ServerlessResponse, applyCorsAndSecurityHeaders } from './_types';
 
-export default function handler(req: any, res: any) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+export default function handler(req: ServerlessRequest, res: ServerlessResponse): void {
+  if (applyCorsAndSecurityHeaders(req, res, 'GET, OPTIONS')) return;
 
   res.status(200).json({
     status: 'online',

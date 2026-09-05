@@ -24,11 +24,13 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand & Logo */}
         <div className="flex items-center space-x-3">
-          <div
+          <button
+            type="button"
             onClick={() => onSelectScreen('generator')}
-            className="cursor-pointer flex items-center space-x-2.5 group"
+            aria-label="PROJECT ORBITMENTOR - Return to Idea Generator"
+            className="cursor-pointer flex items-center space-x-2.5 group text-left focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none rounded-xl p-1"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform" aria-hidden="true">
               <Compass className="w-5 h-5 animate-pulse" />
             </div>
             <div>
@@ -44,7 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 Final Year Project Ideas & Technical Architecture Mentor
               </p>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Screen Switcher Navigation */}
