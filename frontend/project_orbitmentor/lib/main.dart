@@ -6,13 +6,26 @@ import 'widgets/sidebar.dart';
 
 void main() => runApp(const OrbitMentorApp());
 
-class OrbitMentorApp extends StatelessWidget {
+class OrbitMentorApp extends StatefulWidget {
   const OrbitMentorApp({super.key});
+
+  @override
+  State<OrbitMentorApp> createState() => _OrbitMentorAppState();
+}
+
+class _OrbitMentorAppState extends State<OrbitMentorApp> {
+  bool _isDarkMode = true;
+
+  void _toggleTheme() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: AppTheme.darkTheme,
+      theme: _isDarkMode ? AppTheme.darkTheme : ThemeData.light(useMaterial3: true),
       home: Scaffold(
         backgroundColor: const Color(0xFF17181a),
         body: Stack(
@@ -31,7 +44,10 @@ class OrbitMentorApp extends StatelessWidget {
                   color: const Color(0xFF121212),
                 ),
                 clipBehavior: Clip.antiAlias,
-                child: const MainLayout(),
+                child: MainLayout(
+                  isDarkMode: _isDarkMode,
+                  onToggleTheme: _toggleTheme,
+                ),
               ),
             ),
           ],
@@ -61,7 +77,14 @@ class DotGridPainter extends CustomPainter {
 }
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({super.key});
+  final bool isDarkMode;
+  final VoidCallback onToggleTheme;
+
+  const MainLayout({
+    super.key,
+    required this.isDarkMode,
+    required this.onToggleTheme,
+  });
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -161,14 +184,12 @@ class _MainLayoutState extends State<MainLayout> {
               label: const Text('Execute', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
             ),
             const SizedBox(width: 16),
-            Container(
-              width: 32,
-              height: 32,
-              decoration: const BoxDecoration(
-                color: Color(0xFFb8c4ff),
-                shape: BoxShape.circle,
+            IconButton(
+              onPressed: widget.onToggleTheme,
+              icon: Icon(
+                widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                color: const Color(0xFFb8c4ff),
               ),
-              child: const Icon(Icons.person, size: 18, color: Color(0xFF002585)),
             ),
           ],
         ),

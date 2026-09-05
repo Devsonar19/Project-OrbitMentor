@@ -15,10 +15,12 @@ class GenerateResponse(BaseModel):
     ideas: List[ProjectIdea]
 
 class MentorRequest(BaseModel):
-    idea_title: str
-    skills: List[str]
-    domain: str
+    idea_title: Optional[str] = None
+    skills: Optional[List[str]] = None
+    domain: Optional[str] = None
     idea_summary: Optional[str] = None
+    message: Optional[str] = None
+    chat_history: Optional[List[dict]] = None
 
 class TechRationale(BaseModel):
     tech: str

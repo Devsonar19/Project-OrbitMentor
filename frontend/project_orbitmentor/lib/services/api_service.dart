@@ -50,4 +50,27 @@ class ApiService {
       ];
     }
   }
+
+  static Future<String> mentorChat(String message, List<Map<String, String>> history) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/mentor'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'message': message,
+          'chat_history': history,
+        }),
+      ).timeout(const Duration(seconds: 15));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data['response'] ?? 'No response received from mentor.';
+      } else {
+        throw Exception('Server error: ${response.statusCode}');
+      }
+    } catch (e) {
+      await Future.delayed(const Duration(seconds: 1));
+      return "Mock mentor response to: '$message'. Run backend server for real AI.";
+    }
+  }
 }

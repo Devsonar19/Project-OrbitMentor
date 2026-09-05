@@ -14,42 +14,56 @@ class _GeneratorViewState extends State<GeneratorView> {
   final TextEditingController _skillController = TextEditingController();
   
   String _selectedDomain = 'Healthcare AI';
-  String _selectedTier = 'Innovative';
+  String _selectedTier = 'Safe';
   bool _isLoading = false;
   List<ProjectIdea> _results = [];
 
   final Map<String, Map<String, String>> _domainSpecs = {
     'Healthcare AI': {
-      'title': 'HIPAA & HL7/FHIR Compliant',
-      'desc': 'Forces encrypted enclave orchestration, zero-retention model proxies, audit trail sinks, and BAA-eligible VPC peering.',
+      'title': 'Healthcare & Medical Tech',
+      'desc': 'Secure patient data management and AI-assisted diagnostics.',
     },
     'Aerospace': {
-      'title': 'DO-178C / AS9100 Standard Architecture',
-      'desc': 'Hard real-time deterministic event bus, fault isolation telemetry, and radiation-tolerant edge computing redundancy.',
+      'title': 'Aerospace & Aviation',
+      'desc': 'Real-time telemetry and highly reliable systems.',
     },
     'FinTech': {
-      'title': 'PCI-DSS Level 1 & SOC2 Spec',
-      'desc': 'Strict ledger idempotency, multi-region double-entry consensus, zero-knowledge audit trails, and sub-5ms low latency settlement.',
+      'title': 'Finance & Banking',
+      'desc': 'Secure transactions, ledger management, and low latency systems.',
     },
     'EdTech': {
-      'title': 'COPPA & FERPA Standardized',
-      'desc': 'Strict data privacy barriers, distributed multi-tenant real-time whiteboard sockets, and low-bandwidth student edge support.',
+      'title': 'Education & E-Learning',
+      'desc': 'Data privacy for students and interactive learning platforms.',
     },
     'Cybersecurity': {
-      'title': 'NIST-800 Zero-Trust Architecture',
-      'desc': 'Continuous micro-segmentation, ephemeral mutual TLS service meshes, high-volume SIEM event ingest, and kernel-level eBPF probes.',
+      'title': 'Security & Compliance',
+      'desc': 'Zero-trust architecture and threat detection.',
     },
-    'Web3 / Blockchain': {
-      'title': 'EVM & State Machine Primitives',
-      'desc': 'Stateless verification nodes, decentralized IPFS file storage bridges, smart contract deterministic test harness, and RPC load-balancing.',
+    'E-Commerce': {
+      'title': 'Retail & Online Shopping',
+      'desc': 'High volume inventory, payments, and recommendation engines.',
+    },
+    'Social Media': {
+      'title': 'Social & Communication',
+      'desc': 'Real-time messaging, graph networks, and content feeds.',
+    },
+    'Gaming': {
+      'title': 'Interactive Entertainment',
+      'desc': 'Low-latency multiplayer sync and state management.',
     },
   };
 
   final Map<String, List<String>> _quickCatalog = {
-    'Frontend': ['Next.js', 'React', 'SvelteKit', 'TypeScript'],
-    'Backend': ['Node.js', 'Go', 'Rust', 'Python'],
-    'Cloud/Infra': ['AWS', 'Firebase', 'GraphQL', 'Docker', 'Redis'],
+    'Frontend': ['Next.js', 'React', 'SvelteKit', 'TypeScript', 'Flutter', 'Vue.js'],
+    'Backend': ['Node.js', 'Go', 'Rust', 'Python', 'FastAPI', 'Spring Boot'],
+    'Cloud/Infra': ['AWS', 'Firebase', 'GraphQL', 'Docker', 'Redis', 'PostgreSQL', 'MongoDB'],
   };
+
+  final List<String> _allTechStacks = [
+    'Next.js', 'React', 'SvelteKit', 'TypeScript', 'Flutter', 'Vue.js', 'Angular',
+    'Node.js', 'Go', 'Rust', 'Python', 'FastAPI', 'Spring Boot', 'Django', 'Ruby on Rails',
+    'AWS', 'Firebase', 'GraphQL', 'Docker', 'Redis', 'PostgreSQL', 'MongoDB', 'MySQL', 'Kubernetes', 'Gemini AI', 'OpenAI'
+  ];
 
   void _addSkill(String skill) {
     final trimmed = skill.trim();
@@ -110,37 +124,14 @@ class _GeneratorViewState extends State<GeneratorView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header & Scope Context
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF212529),
-                  border: Border.all(color: borderDark),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    SizedBox(
-                      width: 6,
-                      height: 6,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle),
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Text('STITCH_SPEC::v2.4_PROD', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 12),
               const Text(
-                'Architect full-stack systems, cloud infrastructure, and technical roadmaps tailored to your stack.',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFFe5e2e1)),
+                'Plan your next project here.',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Color(0xFFe5e2e1)),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               const Text(
-                'Deterministic composition engine • Zero ambient hallucination • Graph-constrained validation',
-                style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 12, color: Color(0xFF94A3B8)),
+                'Simple and smart idea generator using Gemini AI',
+                style: TextStyle(fontSize: 14, color: Color(0xFF94A3B8)),
               ),
               const SizedBox(height: 28),
 
@@ -164,15 +155,15 @@ class _GeneratorViewState extends State<GeneratorView> {
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
-                            Text('01.', style: TextStyle(fontFamily: 'JetBrains Mono', color: primaryColor, fontWeight: FontWeight.bold)),
+                            Text('01.', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
                             Text(
                               'TECHNICAL CAPABILITIES & STACK',
-                              style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600, color: Color(0xFFc4c5d6)),
+                              style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600, color: Color(0xFFc4c5d6)),
                             ),
                           ],
                         ),
-                        const Text('Select below or commit custom tokens', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                        const Text('Select below or commit custom tokens', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -191,45 +182,37 @@ class _GeneratorViewState extends State<GeneratorView> {
                             child: Icon(Icons.data_object, size: 18, color: Color(0xFF94A3B8)),
                           ),
                           Expanded(
-                            child: TextField(
-                              controller: _skillController,
-                              style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 13, color: Color(0xFFF1F3F5)),
-                              decoration: const InputDecoration(
-                                hintText: 'Add runtime, framework, or cloud service...',
-                                hintStyle: TextStyle(color: Color(0xFF444654)),
-                                border: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.symmetric(vertical: 12),
-                              ),
-                              onSubmitted: (val) => _addSkill(val),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF212529),
-                                    border: Border.all(color: borderDark),
-                                    borderRadius: BorderRadius.circular(4),
+                            child: Autocomplete<String>(
+                              optionsBuilder: (TextEditingValue textEditingValue) {
+                                if (textEditingValue.text.isEmpty) {
+                                  return const Iterable<String>.empty();
+                                }
+                                return _allTechStacks.where((String option) {
+                                  return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                                });
+                              },
+                              onSelected: (String selection) {
+                                _addSkill(selection);
+                              },
+                              fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+                                // Keep controller in sync with state if needed, though autocomplete handles its own
+                                return TextField(
+                                  controller: textEditingController,
+                                  focusNode: focusNode,
+                                  style: const TextStyle(fontSize: 13, color: Color(0xFFF1F3F5)),
+                                  decoration: const InputDecoration(
+                                    hintText: 'Search or add tech stack...',
+                                    hintStyle: TextStyle(color: Color(0xFF444654)),
+                                    border: InputBorder.none,
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(vertical: 12),
                                   ),
-                                  child: const Text('↵ ENTER', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 10, color: Color(0xFF94A3B8))),
-                                ),
-                                const SizedBox(width: 6),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF212529),
-                                    foregroundColor: Colors.white,
-                                    elevation: 0,
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                  ),
-                                  onPressed: () => _addSkill(_skillController.text),
-                                  child: const Text('Add', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 12)),
-                                ),
-                              ],
+                                  onSubmitted: (val) {
+                                    _addSkill(val);
+                                    textEditingController.clear();
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -238,7 +221,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                     const SizedBox(height: 16),
 
                     // Active Selected Tags
-                    const Text('Active constraints:', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                    const Text('Active constraints:', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -259,7 +242,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                               child: DecoratedBox(decoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle)),
                             ),
                             const SizedBox(width: 8),
-                            Text(skill, style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 12, color: Color(0xFFF1F3F5))),
+                            Text(skill, style: const TextStyle(fontSize: 12, color: Color(0xFFF1F3F5))),
                             const SizedBox(width: 6),
                             InkWell(
                               onTap: () => _removeSkill(skill),
@@ -286,7 +269,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                             children: [
                               SizedBox(
                                 width: 90,
-                                child: Text('[${entry.key}]', style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500)),
+                                child: Text('[${entry.key}]', style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500)),
                               ),
                               Wrap(
                                 spacing: 6,
@@ -294,7 +277,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                                 children: entry.value.map((chip) => ActionChip(
                                   backgroundColor: surfaceDark,
                                   side: const BorderSide(color: borderDark),
-                                  label: Text('+ $chip', style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                                  label: Text('+ $chip', style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                                   onPressed: () => _addSkill(chip),
                                 )).toList(),
@@ -318,15 +301,15 @@ class _GeneratorViewState extends State<GeneratorView> {
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
-                            Text('02.', style: TextStyle(fontFamily: 'JetBrains Mono', color: primaryColor, fontWeight: FontWeight.bold)),
+                            Text('02.', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
                             Text(
                               'TARGET INDUSTRY & DOMAIN',
-                              style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600, color: Color(0xFFc4c5d6)),
+                              style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600, color: Color(0xFFc4c5d6)),
                             ),
                           ],
                         ),
-                        const Text('Applies regulatory & compliance bounds', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                        const Text('Applies regulatory & compliance bounds', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -374,15 +357,15 @@ class _GeneratorViewState extends State<GeneratorView> {
                         Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: const [
-                            Text('03.', style: TextStyle(fontFamily: 'JetBrains Mono', color: primaryColor, fontWeight: FontWeight.bold)),
+                            Text('03.', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
                             Text(
                               'GENERATION TIER & FEASIBILITY TARGET',
-                              style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600, color: Color(0xFFc4c5d6)),
+                              style: TextStyle(fontSize: 11, letterSpacing: 1.2, fontWeight: FontWeight.w600, color: Color(0xFFc4c5d6)),
                             ),
                           ],
                         ),
-                        const Text('Select structural risk tolerance', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                        const Text('Select structural risk tolerance', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -393,21 +376,21 @@ class _GeneratorViewState extends State<GeneratorView> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              _buildTierCard('Safe', 'L1 · Safe', 'Low Risk', 'Industry-standard, battle-tested monolith or standard microservices.', '99%', 'Simple'),
+                              _buildTierCard('Safe', 'Safe', 'Fast, Easy to Build', 'Standard tech stack that is easy to deploy.', '99%', 'Simple'),
                               const SizedBox(height: 12),
-                              _buildTierCard('Innovative', 'L2 · Innovative', 'Balanced', 'Cutting-edge workflows, applied AI, modern event-driven architectures.', '85%', 'Edge/K8s'),
+                              _buildTierCard('Applied ML', 'Applied ML', 'uses ML rags and workflows', 'Integrates AI features for smarter apps.', '85%', 'Edge/K8s'),
                               const SizedBox(height: 12),
-                              _buildTierCard('Moonshot', 'L3 · Moonshot', 'Research', 'Novel implementations: autonomous agent swarms, zero-knowledge proofs.', '55%', 'Complex'),
+                              _buildTierCard('Super', 'Super', 'High complexity', 'Advanced distributed system architectures for publications & enterprise.', '55%', 'Complex'),
                             ],
                           );
                         } else {
                           return Row(
                             children: [
-                              Expanded(child: _buildTierCard('Safe', 'L1 · Safe', 'Low Structural Risk', 'Industry-standard, battle-tested monolith or standard microservices.', '99%', 'Simple')),
+                              Expanded(child: _buildTierCard('Safe', 'Safe', 'Fast, Easy to Build', 'Standard tech stack that is easy to deploy.', '99%', 'Simple')),
                               const SizedBox(width: 12),
-                              Expanded(child: _buildTierCard('Innovative', 'L2 · Innovative', 'Balanced & Modern', 'Cutting-edge workflows, applied AI, modern event-driven architectures.', '85%', 'Edge/K8s')),
+                              Expanded(child: _buildTierCard('Applied ML', 'Applied ML', 'uses ML rags and workflows', 'Integrates AI features for smarter apps.', '85%', 'Edge/K8s')),
                               const SizedBox(width: 12),
-                              Expanded(child: _buildTierCard('Moonshot', 'L3 · Moonshot', 'Research-Grade', 'Novel implementations: autonomous agent swarms, zero-knowledge proofs.', '55%', 'Complex')),
+                              Expanded(child: _buildTierCard('Super', 'Super', 'High complexity', 'Advanced distributed system architectures for publications & enterprise.', '55%', 'Complex')),
                             ],
                           );
                         }
@@ -448,7 +431,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                                       color: const Color(0x33002585),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
-                                    child: const Text('⌘ + Enter', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11)),
+                                    child: const Text('⌘ + Enter', style: TextStyle(fontSize: 11)),
                                   ),
                                 ],
                               ),
@@ -465,10 +448,10 @@ class _GeneratorViewState extends State<GeneratorView> {
                           children: const [
                             Icon(Icons.tune, size: 14, color: Color(0xFF94A3B8)),
                             SizedBox(width: 6),
-                            Text('Est. compile: ', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
-                            Text('~1.8s', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFFe5e2e1))),
+                            Text('Est. compile: ', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
+                            Text('~1.8s', style: TextStyle(fontSize: 11, color: Color(0xFFe5e2e1))),
                             SizedBox(width: 8),
-                            Text('• Context: 4.2k tokens', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                            Text('• Context: 4.2k tokens', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                           ],
                         ),
                         Wrap(
@@ -476,7 +459,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                           children: const [
                             Icon(Icons.schema, size: 14, color: Color(0xFF94A3B8)),
                             SizedBox(width: 6),
-                            Text('Artifacts: Mermaid graph + IaC boilerplate', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                            Text('Artifacts: Mermaid graph + IaC boilerplate', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                           ],
                         ),
                       ],
@@ -508,14 +491,14 @@ class _GeneratorViewState extends State<GeneratorView> {
                           children: const [
                             Icon(Icons.terminal, size: 16, color: primaryColor),
                             SizedBox(width: 8),
-                            Text('PIPELINE_PREFLIGHT', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                            Text('PIPELINE_PREFLIGHT', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
                             SizedBox(width: 6),
                             Text('::', style: TextStyle(color: Color(0xFF94A3B8))),
                             SizedBox(width: 6),
-                            Text('READY', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 12, color: primaryColor)),
+                            Text('READY', style: TextStyle(fontSize: 12, color: primaryColor)),
                           ],
                         ),
-                        const Text('Target: GCP • Security: Level-4 HIPAA', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                        const Text('Target: GCP • Security: Level-4 HIPAA', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -528,13 +511,13 @@ class _GeneratorViewState extends State<GeneratorView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
-                          Text('> STITCH_GRAPH: Initialized with domain constraints & regulatory perimeter.', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFFF1F3F5))),
+                          Text('> STITCH_GRAPH: Initialized with domain constraints & regulatory perimeter.', style: TextStyle(fontSize: 11, color: Color(0xFFF1F3F5))),
                           SizedBox(height: 4),
-                          Text('> COMPONENT_MAP: [Flutter Client] -> [mTLS Envoy Proxy] -> [FastAPI Worker]', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                          Text('> COMPONENT_MAP: [Flutter Client] -> [mTLS Envoy Proxy] -> [FastAPI Worker]', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                           SizedBox(height: 4),
-                          Text('> STORAGE_POLICY: Encrypted partitioned PostgreSQL (pgvector active) + Cloud KMS', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: Color(0xFF94A3B8))),
+                          Text('> STORAGE_POLICY: Encrypted partitioned PostgreSQL (pgvector active) + Cloud KMS', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
                           SizedBox(height: 4),
-                          Text('> STATUS: Engine primed. Trigger execution above or adjust constraints.', style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: primaryColor)),
+                          Text('> STATUS: Engine primed. Trigger execution above or adjust constraints.', style: TextStyle(fontSize: 11, color: primaryColor)),
                         ],
                       ),
                     ),
@@ -579,7 +562,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                               border: Border.all(color: borderDark),
                               borderRadius: BorderRadius.circular(4),
                             ),
-                            child: Text(_selectedTier, style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 11, color: primaryColor)),
+                            child: Text(_selectedTier, style: const TextStyle(fontSize: 11, color: primaryColor)),
                           ),
                         ],
                       ),
@@ -616,20 +599,38 @@ class _GeneratorViewState extends State<GeneratorView> {
         border: Border.all(color: borderDark),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedDomain,
-          dropdownColor: surfaceDark,
-          isExpanded: true,
-          style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 13, color: Color(0xFFF1F3F5)),
-          items: _domainSpecs.keys.map((domain) => DropdownMenuItem(
-            value: domain,
-            child: Text(domain),
-          )).toList(),
-          onChanged: (val) {
-            if (val != null) setState(() => _selectedDomain = val);
-          },
-        ),
+      child: Autocomplete<String>(
+        initialValue: TextEditingValue(text: _selectedDomain),
+        optionsBuilder: (TextEditingValue textEditingValue) {
+          if (textEditingValue.text.isEmpty) {
+            return _domainSpecs.keys;
+          }
+          return _domainSpecs.keys.where((String option) {
+            return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+          });
+        },
+        onSelected: (String selection) {
+          setState(() => _selectedDomain = selection);
+        },
+        fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) {
+          return TextField(
+            controller: textEditingController,
+            focusNode: focusNode,
+            style: const TextStyle(fontSize: 13, color: Color(0xFFF1F3F5)),
+            decoration: const InputDecoration(
+              hintText: 'Search domains...',
+              hintStyle: TextStyle(color: Color(0xFF444654)),
+              border: InputBorder.none,
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(vertical: 12),
+            ),
+            onSubmitted: (val) {
+              if (_domainSpecs.keys.contains(val)) {
+                setState(() => _selectedDomain = val);
+              }
+            },
+          );
+        },
       ),
     );
   }
@@ -653,7 +654,7 @@ class _GeneratorViewState extends State<GeneratorView> {
               children: [
                 Text(
                   _domainSpecs[_selectedDomain]!['title']!,
-                  style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFF1F3F5)),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFF1F3F5)),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -697,7 +698,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                   alignment: WrapAlignment.spaceBetween,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(title, style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: FontWeight.bold, color: isSelected ? primaryColor : Color(0xFFF1F3F5))),
+                    Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: isSelected ? primaryColor : Color(0xFFF1F3F5))),
                     Container(
                       width: 14,
                       height: 14,
@@ -718,7 +719,7 @@ class _GeneratorViewState extends State<GeneratorView> {
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(subtitle.toUpperCase(), style: TextStyle(fontFamily: 'JetBrains Mono', fontSize: 9, color: isSelected ? primaryColor : Color(0xFF94A3B8), letterSpacing: 0.5)),
+                Text(subtitle.toUpperCase(), style: TextStyle(fontSize: 9, color: isSelected ? primaryColor : Color(0xFF94A3B8), letterSpacing: 0.5)),
                 const SizedBox(height: 8),
                 Text(desc, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)), maxLines: 2, overflow: TextOverflow.ellipsis),
               ],
@@ -731,8 +732,8 @@ class _GeneratorViewState extends State<GeneratorView> {
                 runSpacing: 4,
                 alignment: WrapAlignment.spaceBetween,
                 children: [
-                  Text('Feasibility: $feasibility', style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 10, color: Color(0xFF94A3B8))),
-                  Text('Ops: $ops', style: const TextStyle(fontFamily: 'JetBrains Mono', fontSize: 10, color: Color(0xFF94A3B8))),
+                  Text('Feasibility: $feasibility', style: const TextStyle(fontSize: 10, color: Color(0xFF94A3B8))),
+                  Text('Ops: $ops', style: const TextStyle(fontSize: 10, color: Color(0xFF94A3B8))),
                 ],
               ),
             ),

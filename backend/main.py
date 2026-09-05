@@ -51,27 +51,44 @@ async def generate(req: GenerateRequest):
 
 @app.post("/api/mentor", response_model=MentorResponse)
 async def mentor(req: MentorRequest):
+    # Determine if it's a chat request or a blueprint request based on the message
+    is_chat = bool(req.message)
     try:
         if api_key:
             model = genai.GenerativeModel('gemini-1.5-flash')
-            prompt = f"""Provide a deep technical mentorship blueprint for the project '{req.idea_title}' in domain '{req.domain}' using stack {req.skills}.
-            Return ONLY valid JSON matching the mentor blueprint schema."""
-            response = model.generate_content(
-                prompt,
-                generation_config={"response_mime_type": "application/json"}
-            )
-            data = json.loads(response.text)
-            return MentorResponse(response="Generated blueprint via Gemini", blueprint=MentorBlueprint(**data))
+            if is_chat:
+                chat = model.start_chat(history=[])
+                if req.chat_history:
+                     for msg in req.chat_history:
+                         role = 'user' if msg.get('role') == 'user' else 'model'
+                         content = msg.get('content', '')
+                         # we can skip loading the whole history into the object if needed,
+                         # but for simplicity let's just send the context with the message
+                prompt = f"Previous context: {req.chat_history}\n\nUser Question: {req.message}"
+                response = model.generate_content(prompt)
+                return MentorResponse(response=response.text)
+            else:
+                prompt = f"""Provide a deep technical mentorship blueprint for the project '{req.idea_title}' in domain '{req.domain}' using stack {req.skills}.
+                Return ONLY valid JSON matching the mentor blueprint schema."""
+                response = model.generate_content(
+                    prompt,
+                    generation_config={"response_mime_type": "application/json"}
+                )
+                data = json.loads(response.text)
+                return MentorResponse(response="Generated blueprint via Gemini", blueprint=MentorBlueprint(**data))
     except Exception as e:
         print(f"Gemini mentor error: {e}")
 
     # Fallback blueprint
-    return MentorResponse(
-        response="Generated fallback mentorship blueprint",
-        blueprint=MentorBlueprint(
-            architecture="Microservices event-driven architecture with secure API gateway.",
-            rationale=[TechRationale(tech="FastAPI", reason="High performance asynchronous execution")],
-            roadmap=[RoadmapPhase(phase="Phase 1: Research & Setup", tasks=["Requirements analysis", "Repo setup"])],
-            components=[ModuleComponent(name="API Gateway", purpose="Request routing and authentication")]
+    if is_chat:
+        return MentorResponse(response=f"Fallback mock mentor response to your query: '{req.message}'. Please check your GEMINI_API_KEY if you want real AI responses.")
+    else:
+        return MentorResponse(
+            response="Generated fallback mentorship blueprint",
+            blueprint=MentorBlueprint(
+                architecture="Microservices event-driven architecture with secure API gateway.",
+                rationale=[TechRationale(tech="FastAPI", reason="High performance asynchronous execution")],
+                roadmap=[RoadmapPhase(phase="Phase 1: Research & Setup", tasks=["Requirements analysis", "Repo setup"])],
+                components=[ModuleComponent(name="API Gateway", purpose="Request routing and authentication")]
+            )
         )
-    )

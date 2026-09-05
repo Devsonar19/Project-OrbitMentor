@@ -42,23 +42,22 @@ class Sidebar extends StatelessWidget {
         children: [
           const Icon(Icons.webhook, color: Color(0xFFb8c4ff), size: 24),
           const SizedBox(width: 12),
-          const Text(
-            'STITCH',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              letterSpacing: 2,
-              fontFamily: 'JetBrains Mono',
+          Expanded(
+            child: const Text(
+              'PROJECT ORBITMENTOR',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                letterSpacing: 1,
+              ),
             ),
           ),
-          const Spacer(),
           const Text(
-            'v1.0.4',
+            'v1.0.0',
             style: TextStyle(
               color: Color(0xFF94A3B8),
               fontSize: 12,
-              fontFamily: 'JetBrains Mono',
             ),
           ),
         ],
@@ -175,9 +174,7 @@ class Sidebar extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          const Icon(Icons.dark_mode_outlined, color: Color(0xFF94A3B8), size: 18),
-          const SizedBox(width: 12),
-          const Icon(Icons.settings_outlined, color: Color(0xFF94A3B8), size: 18),
+          const Icon(Icons.info_outline, color: Color(0xFF94A3B8), size: 18),
         ],
       ),
     );
