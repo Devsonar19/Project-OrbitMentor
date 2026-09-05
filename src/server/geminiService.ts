@@ -11,6 +11,7 @@ import {
 } from '../types';
 import { MemoryCache } from './cache';
 import { validateGenerateRequest, validateMentorRequest, validateChatRequest } from './validation';
+import { generateFallbackIdeas, generateFallbackBlueprint, generateFallbackChat } from '../data/fallbackEngine';
 
 // Caches for fast response times and token efficiency
 const ideasCache = new MemoryCache<GenerateResponse>(100, 600); // 10 min TTL
@@ -145,47 +146,7 @@ Rules:
   }
 
   // High-quality, realistic fallback ideas
-  const domainPrefix = req.domain.split('&')[0].trim();
-  const ideas: ProjectIdea[] = [
-    {
-      id: 'idea-1',
-      title: `${domainPrefix} Smart Workflow Hub`,
-      tier: 'Safe',
-      problem: `Small teams and everyday users struggle with fragmented records and delayed tracking in ${req.domain}.`,
-      solution: `A clean web dashboard that centralizes operational logs, provides status alerts, and exports weekly summary reports.`,
-      recommended_stack: req.skills.length >= 2 ? [...req.skills.slice(0, 3), 'PostgreSQL', 'Docker'] : ['React', 'FastAPI', 'PostgreSQL', 'Tailwind CSS'],
-      key_features: ['Real-time status tracking', 'Automated data validation', 'Exportable PDF/Excel project summaries', 'Interactive dashboard charts'],
-      feasibility_score: '96% (Safe & Fast to Build)',
-      why_good_for_final_year: 'Clean modular code structure, clear database entity relationships, and immediate visual demo for examiners.',
-    },
-    {
-      id: 'idea-2',
-      title: `${domainPrefix} Semantic Document Assistant`,
-      tier: 'Applied ML',
-      problem: `Students and analysts waste hours manually reading lengthy compliance papers and reports in ${req.domain}.`,
-      solution: `A Retrieval-Augmented Generation (RAG) assistant that indexes uploaded PDFs into a vector database to answer queries with direct citations.`,
-      recommended_stack: ['FastAPI', 'Python', 'ChromaDB', 'Gemini AI', 'React', 'Docker'],
-      key_features: ['PDF text chunking and vector search', 'Hallucination-guarded answers with citations', 'Interactive question & answer panel', 'Citation provenance viewer'],
-      feasibility_score: '88% (High Demand & High Score)',
-      why_good_for_final_year: 'Directly showcases modern AI engineering without requiring expensive GPU training clusters.',
-    },
-    {
-      id: 'idea-3',
-      title: `High-Reliability Distributed ${domainPrefix} Engine`,
-      tier: 'Super',
-      problem: `Enterprise systems in ${req.domain} face bottlenecks, data synchronization lag, and service failures during peak load.`,
-      solution: `An event-driven microservices architecture that uses asynchronous queues and worker pools to guarantee zero data loss and automated failover.`,
-      recommended_stack: ['Go or FastAPI', 'Redis', 'Kafka / RabbitMQ', 'Docker', 'Next.js'],
-      key_features: ['Asynchronous event streaming pipeline', 'Automated health monitoring & circuit breaker', 'Sub-50ms query response under heavy load', 'Live telemetry and throughput dashboard'],
-      feasibility_score: '78% (Enterprise & Research Grade)',
-      why_good_for_final_year: 'Ideal for publishing in academic conferences or demonstrating deep systems engineering to top-tier tech interviewers.',
-    },
-  ];
-
-  const fallbackResult: GenerateResponse = {
-    ideas,
-    source: 'orbitmentor-engine',
-  };
+  const fallbackResult = generateFallbackIdeas(req.domain, req.skills, req.tier);
   ideasCache.set(cacheKey, fallbackResult);
   return fallbackResult;
 }
@@ -298,109 +259,13 @@ Return ONLY a valid JSON object matching this schema:
   }
 
   // High quality fallback blueprint
-  const fallbackBlueprint: MentorResponse = {
-    response: 'Mentorship blueprint generated with OrbitMentor Engine',
-    source: 'orbitmentor-engine',
-    blueprint: {
-      project_overview: `A robust, well-scoped capstone project in ${req.domain} that solves authentic user pain points with reliable software engineering.`,
-      system_architecture_summary: `Structured as a clean 3-tier architecture: a responsive client interface communicating over secure REST API endpoints to a modular backend service, backed by a persistent relational database with caching.`,
-      tech_stack_comparison: [
-        {
-          technology: 'FastAPI (Python) vs Express.js (Node.js)',
-          alternatives: 'Django, Flask, Spring Boot',
-          why_better: 'FastAPI generates automatic Swagger UI documentation (professors love this during demonstrations), provides built-in Pydantic validation, and makes integrating AI/ML models frictionless.',
-          learning_curve: 'Moderate',
-          verdict: 'Recommended: Best choice for clean API schemas and painless ML libraries integration.',
-        },
-        {
-          technology: 'PostgreSQL vs MongoDB',
-          alternatives: 'MySQL, SQLite',
-          why_better: 'PostgreSQL guarantees strict relational integrity (ACID), handles complex multi-table queries cleanly, and supports pgvector if semantic search is added later.',
-          learning_curve: 'Moderate',
-          verdict: 'Recommended: Solid database credibility that impresses technical examiners.',
-        },
-        {
-          technology: 'React + Vite vs Flutter Web',
-          alternatives: 'Next.js, Vue.js',
-          why_better: 'React with Vite offers instant compilation, zero bundle bloat, and smooth browser rendering without mobile rendering engine emulation overhead.',
-          learning_curve: 'Easy',
-          verdict: 'Recommended: Fast turnaround for web dashboards with zero friction.',
-        },
-      ],
-      roadmap_phases: [
-        {
-          phase_title: 'Phase 1: Project Scope, SRS & Architecture Design',
-          timeframe: 'Weeks 1 - 4',
-          goal: 'Lock in problem definition, complete literature review, write Software Requirements Specification (SRS), and draft UML diagrams.',
-          tasks: [
-            'Define functional and non-functional requirements with your project guide',
-            'Draw Data Flow Diagrams (DFD Level 0, 1) and Database ER Diagrams',
-            'Initialize Git repository, configure .gitignore, and setup folder structure',
-          ],
-          deliverables: 'Approved Project Proposal Document & Initial Wireframes',
-        },
-        {
-          phase_title: 'Phase 2: Database Schema & Backend Core APIs',
-          timeframe: 'Weeks 5 - 8',
-          goal: 'Build the relational database models, initialize migrations, and implement essential CRUD API routes.',
-          tasks: [
-            'Create database tables with proper foreign key constraints and indexes',
-            'Implement REST endpoints with Pydantic request/response schemas',
-            'Verify all endpoints locally using Swagger UI documentation',
-          ],
-          deliverables: 'Working backend service verified with automated test calls',
-        },
-        {
-          phase_title: 'Phase 3: Frontend Interface & End-to-End Integration',
-          timeframe: 'Weeks 9 - 12',
-          goal: 'Develop interactive user screens, connect API calls, and handle loading and error states.',
-          tasks: [
-            'Build responsive UI with light/dark theme support and simple typography',
-            'Wire frontend forms and search filters directly to backend endpoints',
-            'Add toast notifications and graceful offline/error fallback messages',
-          ],
-          deliverables: 'Complete working application prototype ready for user testing',
-        },
-        {
-          phase_title: 'Phase 4: Optimization, Deployment & Viva Defense Preparation',
-          timeframe: 'Weeks 13 - 16',
-          goal: 'Deploy to cloud hosting, prepare presentation slide deck, and rehearse project defense.',
-          tasks: [
-            'Deploy backend to cloud (Render / Cloud Run) and frontend to Vercel or static host',
-            'Benchmark API response times and write test report documentation',
-            'Conduct mock viva sessions addressing common examiner critique questions',
-          ],
-          deliverables: 'Live Public URL, Final Project Report Thesis & Viva Slide Deck',
-        },
-      ],
-      modules: [
-        {
-          module_name: 'Client Interface & State Store',
-          simple_purpose: 'Allows students and users to interact with features, filter records, and toggle views smoothly.',
-          recommended_tech: 'React + TypeScript + Tailwind CSS',
-          key_responsibilities: ['Fast client-side routing', 'Search autocomplete', 'Light/Dark visual theme'],
-        },
-        {
-          module_name: 'Core API & Business Logic Service',
-          simple_purpose: 'Validates incoming payloads, executes algorithms, and returns structured data.',
-          recommended_tech: 'FastAPI + Pydantic (or Node.js)',
-          key_responsibilities: ['Endpoint routing', 'Input schema sanitization', 'AI service orchestration'],
-        },
-        {
-          module_name: 'Data Persistence & Storage Layer',
-          simple_purpose: 'Safely records user activities, system records, and project states.',
-          recommended_tech: 'PostgreSQL (or SQLite for local dev)',
-          key_responsibilities: ['Data consistency', 'Indexing for sub-second queries', 'Backup snapshots'],
-        },
-      ],
-      viva_defense_tips: [
-        'Clearly state the REAL-WORLD problem first: Examiners care far more about WHY you built this than how many fancy libraries you imported.',
-        'Justify your tech stack choices using engineering trade-offs (e.g. "We chose PostgreSQL over MongoDB because our user data has strict relational constraints").',
-        'Have Swagger UI and database tables open in separate tabs so you can instantly show working data flow when asked.',
-        'Acknowledge limitations honestly: If asked about scaling or security, describe the exact step you would take in Phase 2.',
-      ],
-    },
-  };
+  const fallbackBlueprint = generateFallbackBlueprint(
+    req.idea_title,
+    req.domain,
+    req.skills,
+    req.tier,
+    req.idea_summary
+  );
 
   blueprintCache.set(cacheKey, fallbackBlueprint);
   return fallbackBlueprint;
@@ -467,8 +332,5 @@ Mentor Instructions:
   }
 
   // High quality context-aware fallback response
-  return {
-    reply: `Great question regarding "${req.project_title}"! For an engineering capstone, the most important priority right now is ensuring your core database models and API endpoints are working end-to-end. Once your basic CRUD and data flows are tested on Swagger UI, integrating the frontend and polishing the presentation takes only a couple of days. Would you like sample database schemas or advice on how to test this?`,
-    source: 'orbitmentor-engine',
-  };
+  return generateFallbackChat(req.message, req.project_title, req.domain, req.skills);
 }

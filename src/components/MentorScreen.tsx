@@ -22,6 +22,7 @@ import {
   Clock,
 } from 'lucide-react';
 import { ProjectIdea, MentorBlueprint, ChatMessage } from '../types';
+import { generateFallbackBlueprint, generateFallbackChat } from '../data/fallbackEngine';
 
 interface MentorScreenProps {
   initialIdea?: ProjectIdea | null;
@@ -86,9 +87,20 @@ export const MentorScreen: React.FC<MentorScreenProps> = ({
       if (data.blueprint) {
         setBlueprint(data.blueprint);
         setBlueprintSource(data.source || 'gemini');
+      } else {
+        throw new Error('No blueprint data in response');
       }
     } catch (err) {
-      console.error('Error fetching mentor blueprint:', err);
+      console.warn('Backend /api/mentor unavailable, seamlessly using OrbitMentor engine fallback:', err);
+      const fallback = generateFallbackBlueprint(
+        projectTitle,
+        domain,
+        skills,
+        initialIdea?.tier || 'Safe',
+        initialIdea?.solution || ''
+      );
+      setBlueprint(fallback.blueprint);
+      setBlueprintSource('orbitmentor-engine');
     } finally {
       setIsLoadingBlueprint(false);
     }
@@ -153,16 +165,15 @@ export const MentorScreen: React.FC<MentorScreenProps> = ({
 
       setChatMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
-      console.error('Chat error:', err);
-      setChatMessages((prev) => [
-        ...prev,
-        {
-          id: `error-${Date.now()}`,
-          role: 'assistant',
-          content: 'Sorry, I had trouble reaching the AI server. Please try asking again.',
-          timestamp: 'Now',
-        },
-      ]);
+      console.warn('Backend /api/chat unavailable, using OrbitMentor chat engine:', err);
+      const fallback = generateFallbackChat(textToSend, projectTitle, domain, skills);
+      const assistantMsg: ChatMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        content: fallback.reply,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setChatMessages((prev) => [...prev, assistantMsg]);
     } finally {
       setIsSendingMessage(false);
     }

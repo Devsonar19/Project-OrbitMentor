@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { GenerationTier, ProjectIdea } from '../types';
 import { DOMAINS, SKILLS_CATALOG } from '../data/catalog';
+import { generateFallbackIdeas } from '../data/fallbackEngine';
 
 interface GeneratorScreenProps {
   onSelectProjectForMentor: (idea: ProjectIdea, domain: string, skills: string[]) => void;
@@ -110,15 +111,17 @@ export const GeneratorScreen: React.FC<GeneratorScreenProps> = ({ onSelectProjec
       }
 
       const data = await response.json();
-      if (data.ideas && Array.isArray(data.ideas)) {
+      if (data.ideas && Array.isArray(data.ideas) && data.ideas.length > 0) {
         setResults(data.ideas);
         setDataSource(data.source || 'gemini');
       } else {
         throw new Error('Invalid format received from server');
       }
     } catch (err: any) {
-      console.error('Failed to generate project ideas:', err);
-      setErrorMessage('Unable to connect to AI server. Please retry in a moment.');
+      console.warn('Backend /api/generate unavailable, seamlessly using OrbitMentor engine fallback:', err);
+      const fallback = generateFallbackIdeas(selectedDomain, selectedSkills, selectedTier);
+      setResults(fallback.ideas);
+      setDataSource('orbitmentor-engine');
     } finally {
       setIsLoading(false);
     }
