@@ -50,4 +50,42 @@ class ApiService {
       ];
     }
   }
+
+  static Future<MentorResponse> getMentorBlueprint({
+    required String ideaTitle,
+    required List<String> skills,
+    required String domain,
+    String? ideaSummary,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/mentor'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'idea_title': ideaTitle,
+          'skills': skills,
+          'domain': domain,
+          'idea_summary': ideaSummary,
+        }),
+      ).timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return MentorResponse.fromJson(data);
+      } else {
+        throw Exception('Server error: ${response.statusCode}');
+      }
+    } catch (e) {
+      await Future.delayed(const Duration(seconds: 1));
+      return MentorResponse(
+        response: 'Generated fallback mentorship blueprint',
+        blueprint: MentorBlueprint(
+          architecture: 'Microservices event-driven architecture with secure API gateway.',
+          rationale: [TechRationale(tech: 'FastAPI', reason: 'High performance asynchronous execution')],
+          roadmap: [RoadmapPhase(phase: 'Phase 1: Research & Setup', tasks: ['Requirements analysis', 'Repo setup'])],
+          components: [ModuleComponent(name: 'API Gateway', purpose: 'Request routing and authentication')],
+        ),
+      );
+    }
+  }
 }
