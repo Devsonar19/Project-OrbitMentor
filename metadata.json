@@ -1,0 +1,6 @@
+{
+  "name": "PROJECT ORBITMENTOR",
+  "description": "AI-powered capstone project generator and technical mentor for engineering students with real Gemini AI, domain and tech stack autocomplete, and interactive mentorship blueprints.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
